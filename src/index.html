@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" />
+  <title>AI Slice</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>AI&nbsp;Slice</h1>
+    <span class="tag">optimize &amp; slice for your printer</span>
+    <span id="engine-badge" class="badge" title="CuraEngine status"></span>
+  </header>
+
+  <main>
+    <!-- 3D viewer -->
+    <section id="viewer-pane">
+      <div id="viewer"></div>
+      <div id="viewer-hint">Load an STL to begin</div>
+      <dl id="stats" class="stats hidden">
+        <div><dt>Size (mm)</dt><dd id="s-size">—</dd></div>
+        <div><dt>Volume</dt><dd id="s-vol">—</dd></div>
+        <div><dt>Triangles</dt><dd id="s-tris">—</dd></div>
+        <div><dt>Overhangs</dt><dd id="s-over">—</dd></div>
+        <div><dt>Needs support</dt><dd id="s-sup">—</dd></div>
+        <div><dt>Fits bed</dt><dd id="s-fit">—</dd></div>
+      </dl>
+    </section>
+
+    <!-- Controls -->
+    <aside id="controls">
+      <button id="btn-load" class="primary block">📂 Load STL model</button>
+
+      <fieldset>
+        <legend>Printer</legend>
+        <label>Machine
+          <select id="printer"></select>
+        </label>
+        <label>Material
+          <select id="material"></select>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>AI backend <span class="hint">key stays on this machine</span></legend>
+        <label>Provider
+          <select id="provider"></select>
+        </label>
+        <label>Model
+          <select id="model"></select>
+        </label>
+        <label id="baseurl-row" class="hidden">Base URL
+          <input id="baseurl" type="text" placeholder="https://…/v1/chat/completions" />
+        </label>
+        <label id="key-row">API key
+          <div class="key-input">
+            <input id="apikey" type="password" placeholder="paste key…" autocomplete="off" />
+            <button id="btn-savekey" title="Save key locally">Save</button>
+          </div>
+        </label>
+        <div id="key-status" class="hint"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Goal</legend>
+        <select id="goal">
+          <option value="balanced quality and speed">Balanced</option>
+          <option value="maximum surface quality, speed not important">Best quality</option>
+          <option value="fastest possible print, quality secondary">Fastest</option>
+          <option value="maximum strength and durability">Strongest</option>
+          <option value="minimum material usage">Least material</option>
+        </select>
+      </fieldset>
+
+      <button id="btn-optimize" class="primary block" disabled>✨ AI optimize parameters</button>
+
+      <div id="params" class="params hidden"></div>
+
+      <div class="row">
+        <button id="btn-slice" class="block" disabled>🧩 Slice to G-code</button>
+        <button id="btn-saveprofile" class="block" disabled>💾 Save profile</button>
+      </div>
+
+      <pre id="log" class="log"></pre>
+    </aside>
+  </main>
+
+  <script type="module" src="renderer.js"></script>
+</body>
+</html>

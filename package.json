@@ -1,0 +1,19 @@
+{
+  "name": "ai-slice",
+  "version": "0.1.0",
+  "description": "AI-assisted 3D slicing. Analyzes a model, asks an LLM to optimize slicing parameters for your printer, then slices to G-code via CuraEngine.",
+  "main": "electron/main.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "electron .",
+    "cli": "node lib/cli.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.0.0"
+  },
+  "dependencies": {
+    "three": "^0.169.0"
+  }
+}

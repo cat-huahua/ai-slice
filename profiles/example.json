@@ -1,0 +1,46 @@
+{
+  "_README": "TEMPLATE ONLY — DO NOT COPY THESE NUMBERS BLINDLY. Every printer is different: nozzle wear, firmware (Marlin vs Klipper), extruder type, and especially temps/z-offset must be calibrated on YOUR machine. Copy this file to '<your-printer>.json' (which .gitignore keeps out of git), then fill in REAL values from your own calibration. Wrong temps/start-gcode can damage the printer or cause failed prints.",
+  "id": "REPLACE-with-unique-id-eg-my-cr10",
+  "name": "REPLACE — e.g. Creality CR-10 Smart",
+  "source": "REPLACE — where these numbers came from (your calibration notes)",
+  "machine": {
+    "build_volume_mm": { "x": 0, "y": 0, "z": 0 },
+    "origin": "front-left",
+    "nozzle_diameter_mm": 0.4,
+    "filament_diameter_mm": 1.75,
+    "extruder": "bowden | direct",
+    "max_nozzle_temp_c": 0,
+    "max_bed_temp_c": 0,
+    "heated_bed": true,
+    "auto_bed_leveling": "REPLACE — e.g. CR Touch / manual / none",
+    "firmware": "marlin | klipper"
+  },
+  "firmware_quirks": {
+    "note": "REPLACE — firmware-specific gotchas. Example: Klipper rejects Marlin-only M201/M203/M205.",
+    "unsupported_gcode": [],
+    "supported_gcode": [],
+    "bed_leveling_command": "REPLACE — e.g. G29  or  BED_MESH_PROFILE LOAD=default",
+    "led_on": "",
+    "led_off": ""
+  },
+  "start_gcode": "; REPLACE with YOUR calibrated start G-code.\n; Placeholders {nozzle_temp_0} and {bed_temp_0} are substituted at slice time.\nG28\nG92 E0\n",
+  "end_gcode": "; REPLACE with YOUR end G-code.\nM104 S0\nM140 S0\nM84\n",
+  "materials": {
+    "REPLACE-material-id": {
+      "name": "REPLACE — e.g. Generic PLA (calibrate before trusting)",
+      "type": "PLA | PETG | ABS | TPU",
+      "nozzle_temp_c": 0,
+      "nozzle_temp_initial_c": 0,
+      "bed_temp_c": 0,
+      "bed_temp_initial_c": 0,
+      "print_speed_mms": 0,
+      "travel_speed_mms": 0,
+      "initial_layer_speed_mms": 0,
+      "retraction_distance_mm": 0,
+      "retraction_speed_mms": 0,
+      "fan_speed_pct": 0,
+      "layer_height_mm": 0.2,
+      "initial_layer_height_mm": 0.28
+    }
+  }
+}

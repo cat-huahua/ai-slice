@@ -1,0 +1,91 @@
+:root {
+  --bg: #1a1b26;
+  --panel: #24283b;
+  --panel2: #1f2335;
+  --fg: #c0caf5;
+  --muted: #565f89;
+  --accent: #7aa2f7;
+  --accent2: #bb9af7;
+  --ok: #9ece6a;
+  --warn: #e0af68;
+  --err: #f7768e;
+  --border: #2f334d;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 13px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  display: flex; flex-direction: column;
+}
+header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px; background: var(--panel2);
+  border-bottom: 1px solid var(--border);
+}
+header h1 { font-size: 16px; margin: 0; letter-spacing: .5px; }
+header h1::first-letter { color: var(--accent); }
+.tag { color: var(--muted); font-size: 12px; }
+.badge { margin-left: auto; font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--panel); color: var(--muted); }
+.badge.ok { color: var(--ok); } .badge.miss { color: var(--warn); }
+
+main { flex: 1; display: grid; grid-template-columns: 1fr 380px; min-height: 0; }
+
+#viewer-pane { position: relative; background: radial-gradient(ellipse at center, #20233a, #16172440); }
+#viewer { position: absolute; inset: 0; }
+#viewer-hint {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  color: var(--muted); pointer-events: none; font-size: 15px;
+}
+.stats {
+  position: absolute; left: 12px; bottom: 12px; margin: 0;
+  display: grid; grid-template-columns: repeat(3, auto); gap: 4px 22px;
+  background: #16172acc; padding: 10px 14px; border-radius: 8px;
+  border: 1px solid var(--border); backdrop-filter: blur(4px);
+}
+.stats dt { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .4px; }
+.stats dd { margin: 0; font-weight: 600; }
+
+#controls {
+  background: var(--panel); border-left: 1px solid var(--border);
+  padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+}
+fieldset { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin: 0; }
+legend { color: var(--accent2); padding: 0 6px; font-weight: 600; }
+legend .hint { color: var(--muted); font-weight: 400; font-size: 10px; }
+label { display: block; margin: 8px 0; color: var(--muted); font-size: 12px; }
+select, input[type=text], input[type=password] {
+  width: 100%; margin-top: 3px; padding: 7px 8px; background: var(--panel2);
+  color: var(--fg); border: 1px solid var(--border); border-radius: 6px; font-size: 13px;
+}
+.key-input { display: flex; gap: 6px; }
+.key-input input { flex: 1; }
+button {
+  cursor: pointer; border: 1px solid var(--border); background: var(--panel2);
+  color: var(--fg); padding: 8px 12px; border-radius: 6px; font-size: 13px;
+}
+button:hover:not(:disabled) { border-color: var(--accent); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button.primary { background: var(--accent); color: #16172a; border-color: var(--accent); font-weight: 600; }
+button.primary:hover:not(:disabled) { background: var(--accent2); border-color: var(--accent2); }
+.block { width: 100%; }
+.row { display: flex; gap: 8px; }
+.hint { color: var(--muted); font-size: 11px; }
+.hidden { display: none !important; }
+
+.params {
+  background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;
+}
+.params h4 { margin: 0 0 8px; color: var(--accent); }
+.params .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 14px; }
+.params .k { color: var(--muted); }
+.params .v { text-align: right; font-weight: 600; }
+.params .rationale { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); color: var(--fg); font-size: 12px; }
+
+.log {
+  background: #101018; border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px 10px; margin: 0; min-height: 40px; max-height: 160px; overflow: auto;
+  font: 11px/1.5 ui-monospace, Menlo, monospace; color: var(--muted); white-space: pre-wrap;
+}
+.log .ok { color: var(--ok); } .log .err { color: var(--err); } .log .warn { color: var(--warn); }

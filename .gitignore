@@ -1,0 +1,22 @@
+# Never commit secrets / API keys
+config/secrets.json
+config/*.local.json
+.env
+.env.*
+*.key
+
+# Local settings that may hold keys
+settings.local.json
+
+# Real, machine-specific printer profiles are personal (tuned temps, z-offset,
+# start/end G-code for YOUR firmware). Don't commit them - only the template.
+profiles/*.json
+!profiles/example.json
+
+# Build / deps
+node_modules/
+dist/
+out/
+
+# Generated output
+*.gcode
