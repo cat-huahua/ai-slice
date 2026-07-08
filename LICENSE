@@ -19,13 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-party content:
-
-The printer/material definition files under resources50/ are derived from
-Ultimaker Cura 5.0.0 (https://github.com/Ultimaker/Cura) and are licensed under
-the GNU Affero General Public License v3.0 (AGPL-3.0), © Ultimaker B.V. They are
-redistributed here under those terms; the MIT license above applies only to the
-AI Slice source code, not to those files.

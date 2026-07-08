@@ -1,0 +1,7 @@
+AI Slice — third-party content notices
+
+The printer/material definition files under resources50/ are derived from
+Ultimaker Cura 5.0.0 (https://github.com/Ultimaker/Cura), licensed under the GNU
+Affero General Public License v3.0 (AGPL-3.0), (c) Ultimaker B.V. They are
+redistributed here under those terms. The MIT license in LICENSE applies to the
+AI Slice source code only, not to those files.
