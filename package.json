@@ -6,14 +6,57 @@
   "type": "commonjs",
   "scripts": {
     "start": "electron .",
-    "cli": "node lib/cli.js"
+    "cli": "node lib/cli.js",
+    "dist": "electron-builder --linux deb"
   },
-  "author": "",
+  "author": "hoxide <hoxide@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cat-huahua/ai-slice.git"
+  },
   "devDependencies": {
-    "electron": "^33.0.0"
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
   },
   "dependencies": {
     "three": "^0.169.0"
+  },
+  "build": {
+    "appId": "com.hoxide.aislice",
+    "productName": "AI Slice",
+    "asar": false,
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!profiles/*.json",
+      "profiles/example.json"
+    ],
+    "linux": {
+      "target": ["deb"],
+      "category": "Graphics",
+      "icon": "build/icon.png",
+      "maintainer": "hoxide <hoxide@gmail.com>",
+      "synopsis": "AI-optimized 3D slicing for your printer",
+      "description": "AI Slice analyzes an STL model, asks an LLM (Claude/OpenAI/Ollama) to optimize slicing parameters for your printer, then slices to printable G-code via CuraEngine."
+    },
+    "deb": {
+      "depends": [
+        "cura-engine",
+        "libgtk-3-0t64 | libgtk-3-0",
+        "libnotify4",
+        "libnss3",
+        "libxtst6",
+        "libatspi2.0-0t64 | libatspi2.0-0",
+        "libuuid1",
+        "libgbm1",
+        "libdrm2",
+        "xdg-utils"
+      ]
+    }
   }
 }
