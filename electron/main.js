@@ -10,14 +10,43 @@ const { makeStore } = require('../lib/store');
 
 let store; // initialized once app is ready (needs userData path)
 
-function loadPrinters() {
-  const dir = path.join(__dirname, '..', 'profiles');
-  const out = {};
-  for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.json'))) {
-    const p = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
-    out[p.id] = p;
+/** The user's own profiles live in a writable dir outside the (read-only, root-
+ *  owned) install, so they survive reinstalls/updates and don't need sudo. */
+function userProfilesDir() {
+  return path.join(app.getPath('userData'), 'profiles');
+}
+
+function loadProfilesFrom(dir, out, opts = {}) {
+  let files;
+  try { files = fs.readdirSync(dir); } catch { return; } // dir may not exist yet
+  for (const f of files.filter((x) => x.endsWith('.json'))) {
+    try {
+      const p = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+      if (!p.id) continue;
+      // Skip the shipped placeholder template so it never clutters the dropdown.
+      if (opts.skipExample && (p.id.startsWith('REPLACE') || f === 'example.json')) continue;
+      out[p.id] = p; // later dirs (user) override earlier ones (bundled)
+    } catch { /* ignore an unparseable profile rather than crash the app */ }
   }
+}
+
+function loadPrinters() {
+  const out = {};
+  loadProfilesFrom(path.join(__dirname, '..', 'profiles'), out, { skipExample: true });
+  loadProfilesFrom(userProfilesDir(), out); // user profiles win
   return out;
+}
+
+/** On first run, seed the user profiles dir with the example template so people
+ *  have something to copy and fill in. */
+function seedUserProfiles() {
+  const dir = userProfilesDir();
+  try {
+    fs.mkdirSync(dir, { recursive: true });
+    const dst = path.join(dir, 'example.json');
+    const src = path.join(__dirname, '..', 'profiles', 'example.json');
+    if (!fs.existsSync(dst) && fs.existsSync(src)) fs.copyFileSync(src, dst);
+  } catch { /* non-fatal */ }
 }
 
 function createWindow() {
@@ -38,6 +67,7 @@ function createWindow() {
 
 app.whenReady().then(() => {
   store = makeStore(app.getPath('userData'));
+  seedUserProfiles();
   createWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
