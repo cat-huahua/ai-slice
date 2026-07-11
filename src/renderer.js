@@ -1,6 +1,10 @@
-import * as THREE from '../node_modules/three/build/three.module.js';
-import { STLLoader } from '../node_modules/three/examples/jsm/loaders/STLLoader.js';
-import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
+// Vendored three.js (src/vendor/three/) instead of ../node_modules — electron-
+// builder strips three/examples/ from the packaged app, and the stock loaders use
+// a bare `from 'three'` specifier that a CSP'd renderer can't resolve without an
+// import map. The vendored loaders are patched to import './three.module.js'.
+import * as THREE from './vendor/three/three.module.js';
+import { STLLoader } from './vendor/three/STLLoader.js';
+import { OrbitControls } from './vendor/three/OrbitControls.js';
 
 const api = window.ai;
 const $ = (id) => document.getElementById(id);
@@ -56,6 +60,7 @@ function initViewer() {
 }
 
 function drawBed(bv) {
+  if (!scene) return; // 3D viewer failed to init; skip preview
   if (bedObj) scene.remove(bedObj);
   bedObj = new THREE.Group();
   const grid = new THREE.GridHelper(Math.max(bv.x, bv.y), 20, 0x3b4261, 0x2a2e42);
@@ -68,6 +73,7 @@ function drawBed(bv) {
 }
 
 function showModel(arrayBuffer, bv) {
+  if (!scene) return; // 3D viewer failed to init; analysis/slicing still work
   if (meshObj) { scene.remove(meshObj); meshObj.geometry.dispose(); }
   const geo = new STLLoader().parse(arrayBuffer);
   geo.computeVertexNormals();
@@ -85,7 +91,8 @@ function showModel(arrayBuffer, bv) {
 
 // ---------------- data population ----------------
 async function boot() {
-  initViewer();
+  // 3D preview is optional — never let a WebGL failure block the controls/slicing.
+  try { initViewer(); } catch (e) { log('3D preview unavailable: ' + e.message, 'warn'); }
   state.providers = await api.listProviders();
   state.printers = await api.listPrinters();
 

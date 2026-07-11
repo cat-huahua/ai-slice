@@ -8,6 +8,13 @@ const llm = require('../lib/llm');
 const slicer = require('../lib/slicer');
 const { makeStore } = require('../lib/store');
 
+// Run through XWayland on Wayland sessions. Electron's native-Wayland backend has
+// window/popup quirks on KDE (native <select> dropdowns could render behind other
+// controls); XWayland renders them correctly. Harmless on X11 sessions.
+if (process.platform === 'linux' && !process.env.AI_SLICE_NATIVE_WAYLAND) {
+  app.commandLine.appendSwitch('ozone-platform', 'x11');
+}
+
 let store; // initialized once app is ready (needs userData path)
 
 /** The user's own profiles live in a writable dir outside the (read-only, root-
