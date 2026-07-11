@@ -33,7 +33,7 @@ function loadProfilesFrom(dir, out, opts = {}) {
 function loadPrinters() {
   const out = {};
   loadProfilesFrom(path.join(__dirname, '..', 'profiles'), out, { skipExample: true });
-  loadProfilesFrom(userProfilesDir(), out); // user profiles win
+  loadProfilesFrom(userProfilesDir(), out, { skipExample: true }); // user profiles win; hide the seeded template
   return out;
 }
 
